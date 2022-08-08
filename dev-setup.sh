@@ -98,6 +98,9 @@ brew install k9s
 echo "installing dive"
 brew install dive
 
+echo "installing helm-docs"
+go install github.com/norwoodj/helm-docs/cmd/helm-docs@v1.9.1
+
 read -p "setup ssh key? (y/n): " SETUP_SSH
 if [[ $SETUP_SSH == "y" ]]
 then
