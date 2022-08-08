@@ -92,6 +92,12 @@ add_to_bash_rc "nvm" "$NVM_SOURCE"
 echo "installing kubebuilder"
 brew install kubebuilder
 
+echo "installing k9s"
+brew install k9s
+
+echo "installing dive"
+brew install dive
+
 read -p "setup ssh key? (y/n): " SETUP_SSH
 if [[ $SETUP_SSH == "y" ]]
 then
