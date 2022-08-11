@@ -21,6 +21,9 @@ add_to_bash_rc "starship" 'eval "$(starship init bash)"'
 echo "installing docker and docker-compose"
 sudo apt install -y docker.io docker-compose 
 
+echo "installing python3-venv"
+sudo apt install -y python3.8-venv
+
 echo "installing make"
 sudo apt install -y make
 
