@@ -8,18 +8,18 @@ sudo apt update
 add_to_bash_rc() {
     if ! $(cat ~/.bashrc | grep -q "$2"); then
         echo -e "adding to ~/.bashrc:"
-        echo -e "\n# $1\n$2" | tee -a .bashrc
+        echo -e "\n# $1\n$2" | tee -a ~/.bashrc
     else
          echo -e "found '$2' in ~/.bashrc... skipping"
     fi
 }
 
-echo "installing starship prompt"
-curl -sS https://starship.rs/install.sh | sh
-add_to_bash_rc "starship" 'eval "$(starship init bash)"'
+# echo "installing starship prompt"
+# curl -sS https://starship.rs/install.sh | sh
+# add_to_bash_rc "starship" 'eval "$(starship init bash)"'
 
-echo "installing docker and docker-compose"
-sudo apt install -y docker.io docker-compose 
+# echo "installing docker and docker-compose"
+# sudo apt install -y docker.io docker-compose 
 
 echo "installing python3-venv"
 sudo apt install -y python3.8-venv
