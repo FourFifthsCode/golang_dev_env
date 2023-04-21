@@ -16,13 +16,13 @@ add_to_bash_rc() {
 
 echo "installing apt packages"
 apt_packages=(
+    "python3-pip"
     "python3-venv"
     "make"
     "jq"
-    "yq" 
     "gcc"
 )
-sudo apt install -y $apt_packages
+sudo apt install -y ${apt_packages[@]}
 
 echo "installing homebrew"
 if [[ ! -x /home/linuxbrew/.linuxbrew/bin/brew ]]
@@ -52,9 +52,10 @@ brew_packages=(
     "starship"
     "k9s"
     "dive"
+    "yq"
 )
 
-brew install $brew_packages
+brew install ${brew_packages[@]}
 
 # .bashrc
 add_to_bash_rc "tilt" "source <(tilt completion bash)"
