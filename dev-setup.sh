@@ -14,21 +14,15 @@ add_to_bash_rc() {
     fi
 }
 
-# echo "installing starship prompt"
-# curl -sS https://starship.rs/install.sh | sh
-# add_to_bash_rc "starship" 'eval "$(starship init bash)"'
-
-# echo "installing docker and docker-compose"
-# sudo apt install -y docker.io docker-compose 
-
-echo "installing python3-venv"
-sudo apt install -y python3.8-venv
-
-echo "installing make"
-sudo apt install -y make
-
-echo "installing jq"
-sudo apt install -y jq
+echo "installing apt packages"
+apt_packages=(
+    "python3-venv"
+    "make"
+    "jq"
+    "yq" 
+    "gcc"
+)
+sudo apt install -y $apt_packages
 
 echo "installing homebrew"
 if [[ ! -x /home/linuxbrew/.linuxbrew/bin/brew ]]
@@ -41,49 +35,38 @@ fi
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 add_to_bash_rc "homebrew" 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
 
-echo "installing tilt"
-brew install tilt
+brew_packages=(
+    "tilt"
+    "tilt-dev/tap/ctlptl"
+    "go"
+    "protobuf"
+    "protoc-gen-go"
+    "helm"
+    "kubernetes-cli"
+    "minikube"
+    "kind"
+    "k3d"
+    "swagger-codegen"
+    "nvm"
+    "kubebuilder"
+    "starship"
+    "k9s"
+    "dive"
+)
+
+brew install $brew_packages
+
+# .bashrc
 add_to_bash_rc "tilt" "source <(tilt completion bash)"
-
-echo "installing ctptl"
-sudo apt install gcc -y # required to compile ctlptl
-brew install tilt-dev/tap/ctlptl
 add_to_bash_rc "ctlptl" "source <(ctlptl completion bash)"
-
-echo "installing golang"
-brew install go
 add_to_bash_rc "golang" 'export PATH=$PATH:$HOME/go/bin'
-go env -w CC=gcc CXX="g++" # setup CGO dependencies
-
-echo "installing protoc and protoc-gen-go"
-brew install protobuf
-brew install protoc-gen-go
-
-echo "installing helm"
-brew install helm
 add_to_bash_rc "helm" "source <(helm completion bash)"
-
-echo "installing kubectl"
-brew install  kubernetes-cli
 add_to_bash_rc "kubectl" "source <(kubectl completion bash)"
-
-echo "installing minikube"
-brew install minikube
 add_to_bash_rc "minikube" "source <(minikube completion bash)"
-
-echo "installing kind"
-brew install kind
 add_to_bash_rc "kind" "source <(kind completion bash)"
-
-echo "installing k3d"
-brew install k3d
 add_to_bash_rc "k3d" "source <(k3d completion bash)"
+add_to_bash_rc "starship" 'eval "$(starship init bash)"'
 
-echo "installing swagger-codegen"
-brew install swagger-codegen
-
-echo "installing nvm"
-brew install nvm
 NVM_SOURCE=$(cat << EOF
 export NVM_DIR="$HOME/.nvm"
 [ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh" # This loads nvm
@@ -92,22 +75,6 @@ EOF
 )
 add_to_bash_rc "nvm" "$NVM_SOURCE"
 
-echo "installing kubebuilder"
-brew install kubebuilder
-
-echo "installing k9s"
-brew install k9s
-
-echo "installing dive"
-brew install dive
-
-echo "installing helm-docs"
+# golang
+go env -w CC=gcc CXX="g++" # setup CGO dependencies
 go install github.com/norwoodj/helm-docs/cmd/helm-docs@v1.9.1
-
-read -p "setup ssh key? (y/n): " SETUP_SSH
-if [[ $SETUP_SSH == "y" ]]
-then
-    read -p "email (y/n): " EMAIL
-    ssh-keygen -t ed25519 -C $EMAIL 
-fi
-
